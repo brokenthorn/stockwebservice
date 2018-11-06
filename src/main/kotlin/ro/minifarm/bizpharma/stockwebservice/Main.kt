@@ -75,7 +75,7 @@ suspend fun getStock(dataSource: HikariDataSource): Deferred<List<StockLineItem>
 // This function creates a Hikari Data Source, a database connection pool:
 fun createHikariDataSource(): HikariDataSource {
     val config = HikariConfig()
-    config.jdbcUrl = System.getenv("JDBC_URL") ?: "jdbc:sqlserver://ho.minifarm.ro\\SQL2008:1443;database=BizPharmaHO"
+    config.jdbcUrl = System.getenv("JDBC_URL") ?: "jdbc:sqlserver://ho.minifarm.ro:1443;database=BizPharmaHO"
     config.username = System.getenv("JDBC_USERNAME") ?: "sa"
     config.password = System.getenv("JDBC_PASSWORD") ?: ""
     config.maxLifetime = 60_000 // 1 minute

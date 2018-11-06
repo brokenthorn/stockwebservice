@@ -5,7 +5,7 @@ import org.gradle.kotlin.dsl.application
 
 val kotlinVersion = "1.3.0"
 val ktorVersion = "1.0.0-beta-3"
-val mssqlJdbcVersion = "7.1.2.jre11-preview"
+val mssqlJdbcVersion = "7.0.0.jre8"
 val hikariCpVersion = "3.1.0"
 
 // apply gradle plugins
