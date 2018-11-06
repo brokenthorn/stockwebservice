@@ -27,7 +27,7 @@ import java.text.DateFormat
 import java.util.*
 import java.util.concurrent.Executors
 
-// Set up a new fixed thread pool context for couroutines that will query the database.
+// Set up a new fixed thread pool context for coroutines that will query the database.
 // TODO: unless properly closed `databaseQueryCoroutineDispatcher` leaks threads so this should probably be closed when the server closes or terminates abnormally
 
 val databaseQueryCoroutineDispatcher = Executors.newFixedThreadPool(4).asCoroutineDispatcher()
@@ -76,8 +76,8 @@ suspend fun getStock(dataSource: HikariDataSource): Deferred<List<StockLineItem>
 fun createHikariDataSource(): HikariDataSource {
     val config = HikariConfig()
     config.jdbcUrl = System.getenv("JDBC_URL") ?: "jdbc:sqlserver://ho.minifarm.ro\\SQL2008:1443;database=BizPharmaHO"
-    config.username = System.getenv("USERNAME") ?: ""
-    config.password = System.getenv("PASSWORD") ?: ""
+    config.username = System.getenv("JDBC_USERNAME") ?: "sa"
+    config.password = System.getenv("JDBC_PASSWORD") ?: ""
     config.maxLifetime = 60_000 // 1 minute
     config.maximumPoolSize = 4
     config.isAutoCommit = false
