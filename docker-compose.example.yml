@@ -4,6 +4,7 @@ services:
   stockwebservice:
     build: ./
     image: minifarm/stockwebservice:0.1
+    container_name: minifarm_stockwebservice
     domainname: domain.tld
     hostname: hostname
     ports:
