@@ -98,16 +98,18 @@ fun Application.module() {
     install(CallLogging) { level = Level.DEBUG }
     install(Compression) { deflate { minimumSize(1024) }; gzip { minimumSize(1024) } }
     install(ContentNegotiation) {
-        jackson { dateFormat = DateFormat.getDateInstance(DateFormat.SHORT, Locale("ro", "ro")) }
+        jackson { dateFormat = DateFormat.getDateInstance(DateFormat.MEDIUM, Locale("ro", "ro")) }
     }
     install(Authentication) {
         basic(name = "authenticated-clients") {
             realm = "stockwebservice"
             validate { credentials ->
                 val pwd = getApiAuthPassword()
-                if (pwd.isNullOrBlank()) null
-                else if (credentials.password == pwd) UserIdPrincipal(credentials.name)
-                else null
+                when {
+                    pwd.isNullOrBlank() -> null
+                    credentials.password == pwd -> UserIdPrincipal(credentials.name)
+                    else -> null
+                }
             }
         }
     }

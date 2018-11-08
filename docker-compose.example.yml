@@ -1,22 +1,16 @@
-version: '2.4'
+version: '3'
 
 services:
   stockwebservice:
-    image: stockwebservice
-    mem_limit: 2G
-    memswap_limit: 4G
-    cpus: 0.0
-    build:
-      context: ./
-      dockerfile: Dockerfile
-    restart: on-failure
+    build: ./
+    image: minifarm/stockwebservice:0.1
+    domainname: domain.tld
+    hostname: hostname
     ports:
-    - 8080:8080
+    - "8080:8080"
     environment:
       JAVA_OPTS: "-XX:+UnlockExperimentalVMOptions -XX:+UseCGroupMemoryLimitForHeap -XX:InitialRAMFraction=2 -XX:MinRAMFraction=2 -XX:MaxRAMFraction=1 -XX:+UseG1GC -XX:MaxGCPauseMillis=200"
-      JDBC_URL: "jdbc:sqlserver://<ip_or_hostname>:<tcp_port_number>;database=<database_name>"
-      JDBC_USERNAME: ""
-      JDBC_PASSWORD: ""
-      API_PASSWORD: ""
-
-# docker-compose build && docker-compose up
+      JDBC_URL: "jdbc:sqlserver://ip:port;database=database_name"
+      JDBC_USERNAME: "username"
+      JDBC_PASSWORD: "password"
+      API_PASSWORD: "api_password"

@@ -1,23 +1,33 @@
-# We select the base image from. Locally available or from https://hub.docker.com/
 FROM openjdk:8-jre-alpine
+LABEL maintainer="brokenthorn@gmail.com"
 
-# Expose TCP port
-EXPOSE 8080:8080
+# Set runtime and buildtime environment variables.
+ENV JAVA_OPTS ""
+ENV JDBC_URL ""
+ENV JDBC_USERNAME ""
+ENV JDBC_PASSWORD ""
+ENV API_PASSWORD ""
 
-# We define the user we will use in this instance to prevent using root that even in a container, can be a security risk.
+# We define the user we will use in this instance to prevent using root
+# that even in a container, can be a security risk.
 ARG APPLICATION_USER=ktor
-
-# Then we add the user, create the /app folder and give permissions to our user.
 RUN adduser -D -g '' $APPLICATION_USER
+
+# Create app folder.
 RUN mkdir /app
 RUN chown -R $APPLICATION_USER /app
 
-# Marks this container to use the specified $APPLICATION_USER
+# Marks this container to use the specified user for the following RUN, CMD, ENTRYPOINT commands.
 USER $APPLICATION_USER
 
-# We copy the FAT Jar we built into the /app folder and sets that folder as the working directory.
+# Extract a distribution of the application into the app folder.
 ADD "./build/distributions/stockwebservice-0.1.tar" /app
+
+# Inform Docker of exposed ports (use docker run -P to publish all exposed ports).
+EXPOSE 8080/tcp
+
 WORKDIR /app
 
-# Container entrypoint
+# Set container entrypoint.
 ENTRYPOINT ["./stockwebservice-0.1/bin/stockwebservice"]
+
